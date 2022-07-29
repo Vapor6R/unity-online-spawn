@@ -1,30 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Photon.Realtime;
+using UnityEngine.UI;
 using Photon.Pun;
 
 public class MyLauncher : MonoBehaviourPunCallbacks
 {
-private GameObject btn;
-public Text feedbackText;
+        public Button Btn;
+		public Text feedbackText;
 		private byte maxPlayersPerRoom = 9;
 		bool isConnecting;
 		string gameVersion = "1";
-		void Awake()
+    
+void Awake()
 		{
-			PhotonNetwork.AutomaticallySyncScene = true;
+	PhotonNetwork.AutomaticallySyncScene = true;
+
 		}
-		public void Connect()
+public void Connect()
 		{
-			feedbackText.text = "";
+feedbackText.text = "";
 
-			isConnecting = true;
+isConnecting = true;
 
-			btn.interactable = false;
+Btn.interactable = false;
 
-		if (PhotonNetwork.IsConnected)
+	if (PhotonNetwork.IsConnected)
 			{
 				LogFeedback("Joining Room...");
 				PhotonNetwork.JoinRandomRoom();
@@ -44,9 +46,9 @@ public Text feedbackText;
 
 			feedbackText.text += System.Environment.NewLine+message;
 		}
-		public override void OnConnectedToMaster()
+		 public override void OnConnectedToMaster()
 		{
-		if (isConnecting)
+           if (isConnecting)
 			{
 				LogFeedback("OnConnectedToMaster: Next -> try to Join Random Room");
 				Debug.Log("PUN Basics Tutorial/Launcher: OnConnectedToMaster() was called by PUN. Now this client is connected and could join a room.\n Calling: PhotonNetwork.JoinRandomRoom(); Operation will fail if no room found");
@@ -59,17 +61,15 @@ public Text feedbackText;
 			LogFeedback("<Color=Red>OnJoinRandomFailed</Color>: Next -> Create a new Room");
 			Debug.Log("PUN Basics Tutorial/Launcher:OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
 
-			PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = this.maxPlayersPerRoom});
+		PhotonNetwork.CreateRoom(null, new RoomOptions { MaxPlayers = this.maxPlayersPerRoom});
 		}
-		public override void OnDisconnected(DisconnectCause cause)
+				public override void OnDisconnected(DisconnectCause cause)
 		{
 			LogFeedback("<Color=Red>OnDisconnected</Color> "+cause);
 			Debug.LogError("PUN Basics Tutorial/Launcher:Disconnected");
 
-			loaderAnime.StopLoaderAnimation();
-
 			isConnecting = false;
-			btn.interactable = true;
+			Btn.interactable = true;
 
 		}
 		public override void OnJoinedRoom()
@@ -81,9 +81,11 @@ public Text feedbackText;
 			{
 				Debug.Log("We load the 'Room for 1' ");
 
-				// Load the Table Scn. 
+				// Load the table scene. 
 				PhotonNetwork.LoadLevel("Table");
 
 			}
 		}
+
+
 }
